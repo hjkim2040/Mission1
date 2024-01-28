@@ -17,7 +17,7 @@ public class WifiApi {
     private static OkHttpClient client = new OkHttpClient();
     private static String ApiUrl = "http://openapi.seoul.go.kr:8088/4279564956686a6b3130394f50465061/json/TbPublicWifiInfo/";
 
-    public static int WifiCount() throws IOException {
+    public int WifiCount() throws IOException {
         int count = 0;
 
         URL url = new URL(ApiUrl + "1/1");
@@ -42,9 +42,10 @@ public class WifiApi {
         return count;
     }
 
-    public static int getPublicWifiJson() throws IOException {
+    public int getPublicWifiJson() throws IOException {
         int totalCnt = WifiCount();
-        int start = 1, end = 1;
+        int start = 1;
+        int end = 1;
         int count = 0;
         Gson gson = new Gson();
 
@@ -64,8 +65,8 @@ public class WifiApi {
                         throw new IOException("Unexpected code " + response);
                     }
                     String jsonData = response.body().string();
-                    WifiInfo wifiInfo = gson.fromJson(jsonData, WifiInfo.class);
-                    count += insertWifi(wifiInfo.getRow());
+                    WifiList wifiList = gson.fromJson(jsonData, WifiList.class);
+                    count += insertWifi(wifiList.TbPublicWifiInfo.getRow());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

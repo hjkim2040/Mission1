@@ -57,13 +57,15 @@ public class Databases {
         try {
             connection = Databases.dbConnect();
 
-            String sql = " insert into public_wifi "
+            String sql = " insert ignore into public_wifi "
                     + " ( x_swifi_mgr_no, x_swifi_wrdofc, x_swifi_main_nm, x_swifi_adres1, x_swifi_adres2, "
                     + " x_swifi_instl_floor, x_swifi_instl_ty, x_swifi_instl_mby, x_swifi_svc_se, x_swifi_cmcwr, "
                     + " x_swifi_cnstc_year, x_swifi_inout_door, x_swifi_remars3, lat, lnt, work_dttm) "
                     + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
 
             preparedStatement = connection.prepareStatement(sql);
+
+            int i = 0;
 
             for (Wifi wifi : infoList) {
                 preparedStatement.setString(1, wifi.getXSwifiMgrNo());
@@ -83,7 +85,12 @@ public class Databases {
                 preparedStatement.setString(15, wifi.getLnt());
                 preparedStatement.setString(16, wifi.getWorkDttm());
 
-                preparedStatement.executeUpdate();
+                preparedStatement.addBatch();
+                i++;
+
+                if (i % 1000 == 0 || i == infoList.size()) {
+                    preparedStatement.executeBatch();
+                }
                 count++;
             }
 

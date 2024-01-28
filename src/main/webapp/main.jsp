@@ -28,7 +28,7 @@ LAT : <input type="text" name="LAT" value="0.0"> , LNT : <input type="text" name
         <th>작업일자</th>
     </tr>
     <tr>
-        <td colspan="17">위치정보를 입력한 후에 조회해 주세요.</td>
+        <td colspan="17" style="height:50px">위치정보를 입력한 후에 조회해 주세요.</td>
     </tr>
     <%--  <tr>--%>
     <%--    <td><%= wifiInfo.distance %></td>--%>
