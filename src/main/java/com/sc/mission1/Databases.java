@@ -245,6 +245,98 @@ public class Databases {
         }
 
     }
+    public Wifi wifiDetail (String mgrNo) {
+        Wifi wifi = new Wifi();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+
+            String sql = "select * from public_wifi where x_swifi_mgr_no = ?;";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, mgrNo);
+
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                wifi.setXSwifiMgrNo(rs.getString("x_swifi_mgr_no"));
+                wifi.setXSwifiWrdofc(rs.getString("x_swifi_wrdofc"));
+                wifi.setXSwifiMainNm(rs.getString("x_swifi_main_nm"));
+                wifi.setXSwifiAdres1(rs.getString("x_swifi_adres1"));
+                wifi.setXSwifiAdres2(rs.getString("x_swifi_adres2"));
+                wifi.setXSwifiInstlFloor(rs.getString("x_swifi_instl_floor"));
+                wifi.setXSwifiInstlTy(rs.getString("x_swifi_instl_ty"));
+                wifi.setXSwifiInstlMby(rs.getString("x_swifi_instl_mby"));
+                wifi.setXSwifiSvcSe(rs.getString("x_swifi_svc_se"));
+                wifi.setXSwifiCmcwr(rs.getString("x_swifi_cmcwr"));
+                wifi.setXSwifiCnstcYear(rs.getString("x_swifi_cnstc_year"));
+                wifi.setXSwifiInoutDoor(rs.getString("x_swifi_inout_door"));
+                wifi.setXSwifiRemars3(rs.getString("x_swifi_remars3"));
+                wifi.setLat(rs.getString("lat"));
+                wifi.setLnt(rs.getString("lnt"));
+                wifi.setWorkDttm(rs.getString("work_dttm"));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection, preparedStatement, rs);
+        }
+
+        return wifi;
+    }
+    public List<Wifi> wifiDetailList (String mgrNo, double distance) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        List<Wifi> list = new ArrayList<>();
+
+        try {
+            connection = Databases.dbConnect();
+
+            String sql = "select * from public_wifi where x_swifi_mgr_no = ?;";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, mgrNo);
+
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Wifi wifi = new Wifi();
+                wifi.setDistance(distance);
+                wifi.setXSwifiMgrNo(rs.getString("x_swifi_mgr_no"));
+                wifi.setXSwifiWrdofc(rs.getString("x_swifi_wrdofc"));
+                wifi.setXSwifiMainNm(rs.getString("x_swifi_main_nm"));
+                wifi.setXSwifiAdres1(rs.getString("x_swifi_adres1"));
+                wifi.setXSwifiAdres2(rs.getString("x_swifi_adres2"));
+                wifi.setXSwifiInstlFloor(rs.getString("x_swifi_instl_floor"));
+                wifi.setXSwifiInstlTy(rs.getString("x_swifi_instl_ty"));
+                wifi.setXSwifiInstlMby(rs.getString("x_swifi_instl_mby"));
+                wifi.setXSwifiSvcSe(rs.getString("x_swifi_svc_se"));
+                wifi.setXSwifiCmcwr(rs.getString("x_swifi_cmcwr"));
+                wifi.setXSwifiCnstcYear(rs.getString("x_swifi_cnstc_year"));
+                wifi.setXSwifiInoutDoor(rs.getString("x_swifi_inout_door"));
+                wifi.setXSwifiRemars3(rs.getString("x_swifi_remars3"));
+                wifi.setLat(rs.getString("lat"));
+                wifi.setLnt(rs.getString("lnt"));
+                wifi.setWorkDttm(rs.getString("work_dttm"));
+                list.add(wifi);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection, preparedStatement, rs);
+        }
+
+        return list;
+    }
 
 }
 

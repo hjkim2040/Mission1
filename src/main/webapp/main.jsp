@@ -52,7 +52,7 @@
         </td>
         <td><%=wf.getXSwifiWrdofc()%>
         </td>
-        <td><%=wf.getXSwifiMainNm() %>
+        <td><a href="wifiDetail.jsp?mgrNo=<%=wf.getXSwifiMgrNo()%>&distance=<%=wf.getDistance()%>"><%=wf.getXSwifiMainNm()%></a>
         </td>
         <td><%=wf.getXSwifiAdres1()%>
         </td>
