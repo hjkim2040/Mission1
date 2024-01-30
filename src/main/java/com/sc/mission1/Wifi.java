@@ -37,7 +37,7 @@ public class Wifi {
     private String xSwifiCmcwr;
     @SerializedName("X_SWIFI_CNSTC_YEAR")
     private String xSwifiCnstcYear;
-    @SerializedName("X_SWIFI_INOUT_DOOR\t")
+    @SerializedName("X_SWIFI_INOUT_DOOR")
     private String xSwifiInoutDoor;
     @SerializedName("X_SWIFI_REMARS3")
     private String xSwifiRemars3;

@@ -22,3 +22,12 @@ th {
     background-color: #04AA6D;
     color: white;
 }
+div input {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+div button {
+    margin-left: 5px;
+    margin-right: 5px;
+}

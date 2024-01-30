@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class History {
+public class SearchHistory {
     private int id;
-    private String lnt;
     private String lat;
+    private String lnt;
     private LocalDateTime searchDttm;
 }
