@@ -1,24 +1,36 @@
 <%@ page import="com.sc.mission1.Wifi" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.sc.mission1.Databases" %>
+<%@ page import="com.sc.mission1.BookmarkGroup" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
-    <title>상세 정보</title>
+    <title>와이파이 정보 구하기</title>
+    <style>
+        th {
+            width: 25%;
+        }
+    </style>
 </head>
 <body>
 <h1>와이파이 상세 정보</h1>
 <%@include file="header.jsp" %>
-<br/>
 <%
     Databases databases = new Databases();
     String distance = request.getParameter("distance");
     String mgrNo = request.getParameter("mgrNo");
-    List<Wifi> list = databases.wifiDetailList(mgrNo, Double.parseDouble(distance));
+    List<Wifi> wifilist = databases.wifiDetailList(mgrNo, Double.parseDouble(distance));
+    List<BookmarkGroup> bookmarkGroupList = databases.bookmarkGroupList();
+    request.setAttribute("bookmarkGroupList", bookmarkGroupList);
+
 %>
+<select>
+    <option value="">북마크 그룹 이름 선택</option>
+</select>
+<button>북마크 추가하기</button>
 <div style="padding: 10px 0">
     <table>
-        <% for (Wifi wifi : list) { %>
+        <% for (Wifi wifi : wifilist) { %>
         <tr>
             <th>거리(km)</th>
             <td><%=wifi.getDistance()%>

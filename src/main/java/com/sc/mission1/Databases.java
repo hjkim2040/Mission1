@@ -205,7 +205,6 @@ public class Databases {
 
             while (rs.next()) {
                 Timestamp timestamp = rs.getTimestamp("search_dttm");
-
                 LocalDateTime searchDttm = timestamp.toLocalDateTime();
 
                 SearchHistory searchHistory = new SearchHistory(
@@ -223,7 +222,7 @@ public class Databases {
         }
         return list;
     }
-    public void deleteSearchHistory (String id) {
+    public void deleteSearchHistory (int id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -235,7 +234,7 @@ public class Databases {
                     "where search_wifi_id = ?;";
 
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, Integer.parseInt(id));
+            preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -336,6 +335,126 @@ public class Databases {
         }
 
         return list;
+    }
+    public int addBookmarkGroup(BookmarkGroup bookmarkGroup) {
+        int result = 0;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+            String sql = " insert into bookmark_group(name, order_no, reg_dttm) "
+                    + " values (?, ?, ?);" ;
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, bookmarkGroup.getName());
+            preparedStatement.setInt(2, bookmarkGroup.getOrderNo());
+            Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+            preparedStatement.setTimestamp(3, timestamp);
+
+            result = preparedStatement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection,preparedStatement,rs);
+        }
+        return result;
+    }
+    public List<BookmarkGroup> bookmarkGroupList() {
+        List<BookmarkGroup> list = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+
+            String sql = "select * " +
+                    "from bookmark_group " +
+                    "order by bookmark_group_id;" ;
+
+            preparedStatement = connection.prepareStatement(sql);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("reg_dttm");
+                LocalDateTime regDttm = timestamp.toLocalDateTime();
+
+                LocalDateTime modifyDttm = null;
+                Timestamp timestamp2 = rs.getTimestamp("modify_dttm");
+                if (timestamp2 != null) {
+                    modifyDttm = timestamp2.toLocalDateTime();
+                }
+                BookmarkGroup bookmarkGroup = new BookmarkGroup();
+                bookmarkGroup.setId(rs.getInt("bookmark_group_id"));
+                bookmarkGroup.setName(rs.getString("name"));
+                bookmarkGroup.setOrderNo(rs.getInt("order_no"));
+                bookmarkGroup.setRegDttm(regDttm);
+                if (modifyDttm != null) {
+                    bookmarkGroup.setModifyDttm(modifyDttm);
+                }
+                list.add(bookmarkGroup);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection,preparedStatement,rs);
+        }
+        return list;
+    }
+    public int modifyBookmarkGroup(int id, String name, int orderNo) {
+        int num = 0;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+            String sql = "update bookmark_group " +
+                    "set name = ?, order_no = ?, modify_dttm = ? " +
+                    "where bookmark_group_id = ?;" ;
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,name);
+            preparedStatement.setInt(2, orderNo);
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setInt(4, id);
+
+            num = preparedStatement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection,preparedStatement,rs);
+        }
+        return num;
+    }
+    public void deleteBookmarkGroup(int id) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+            String sql = "delete from bookmark_group where bookmark_group_id = ?;" ;
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection,preparedStatement,rs);
+        }
+
     }
 
 }

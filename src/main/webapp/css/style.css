@@ -7,7 +7,7 @@ table {
 td, th {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: center;
+    text-align: left;
     height: 100%;
 }
 

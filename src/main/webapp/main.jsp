@@ -84,7 +84,7 @@
     <% }
     }
     } else { %>
-        <td colspan="17" style="height:50px">위치정보를 입력한 후에 조회해 주세요.</td>
+        <td colspan="17" style="text-align: center; height:50px">위치정보를 입력한 후에 조회해 주세요.</td>
     <% } %>
 </table>
 <script>

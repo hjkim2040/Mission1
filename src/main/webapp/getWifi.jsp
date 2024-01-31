@@ -2,7 +2,7 @@
 <%@ page import="com.sc.mission1.WifiApi" %>
 <html>
 <head>
-    <title>와이파이 데이터 요청</title>
+    <title>와이파이 정보 구하기</title>
     <style>
         .center {
             text-align: center;

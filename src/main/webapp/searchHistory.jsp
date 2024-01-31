@@ -4,7 +4,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
-    <title>위치 히스토리 목록</title>
+    <title>와이파이 정보 구하기</title>
 </head>
 <body>
 <h1><%= "위치 히스토리 목록" %>
@@ -16,9 +16,10 @@
 
     String id = request.getParameter("id");
     if (id != null) {
-        databases.deleteSearchHistory(id);
+        databases.deleteSearchHistory(Integer.parseInt(id));
     }
 %>
+
 <div>
     <table>
         <tr>
@@ -32,7 +33,7 @@
             if (list.isEmpty()) {
         %>
         <tr>
-            <td colspan="5" style="height:50px">조회 이력이 없습니다.</td>
+            <td colspan="5" style="text-align: center; height:50px">조회 이력이 없습니다.</td>
         </tr>
         <% } else {
             for (SearchHistory searchHistory : list) { %>
@@ -45,7 +46,7 @@
             </td>
             <td><%=searchHistory.getSearchDttm()%>
             </td>
-            <td>
+            <td style="text-align: center;">
                 <button onclick="deleteSearchHistory(<%=searchHistory.getId()%>)">삭제</button>
             </td>
         </tr>
