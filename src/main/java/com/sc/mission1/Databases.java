@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class Databases {
     public static Connection dbConnect() {
         String url = "jdbc:mariadb://13.209.241.155:3306/mission1";
@@ -159,7 +158,8 @@ public class Databases {
         searchHistory(lat, lnt);
         return wifiList;
     }
-    public void searchHistory (String lat, String lnt) {
+
+    public void searchHistory(String lat, String lnt) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -186,7 +186,8 @@ public class Databases {
             Databases.close(connection, preparedStatement, rs);
         }
     }
-    public List<SearchHistory> searchHistoryList () {
+
+    public List<SearchHistory> searchHistoryList() {
         List<SearchHistory> list = new ArrayList<>();
 
         Connection connection = null;
@@ -222,7 +223,8 @@ public class Databases {
         }
         return list;
     }
-    public void deleteSearchHistory (int id) {
+
+    public void deleteSearchHistory(int id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -244,7 +246,8 @@ public class Databases {
         }
 
     }
-    public Wifi wifiDetail (String mgrNo) {
+
+    public Wifi wifiDetail(String mgrNo) {
         Wifi wifi = new Wifi();
 
         Connection connection = null;
@@ -289,7 +292,8 @@ public class Databases {
 
         return wifi;
     }
-    public List<Wifi> wifiDetailList (String mgrNo, double distance) {
+
+    public List<Wifi> wifiDetailList(String mgrNo, double distance) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -336,6 +340,7 @@ public class Databases {
 
         return list;
     }
+
     public int addBookmarkGroup(BookmarkGroup bookmarkGroup) {
         int result = 0;
 
@@ -345,8 +350,18 @@ public class Databases {
 
         try {
             connection = Databases.dbConnect();
+
+            String checkSql = "SELECT COUNT(*) FROM bookmark_group WHERE order_no = ?;";
+            preparedStatement = connection.prepareStatement(checkSql);
+            preparedStatement.setInt(1, bookmarkGroup.getOrderNo());
+            rs = preparedStatement.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                return -1;
+            }
+
             String sql = " insert into bookmark_group(name, order_no, reg_dttm) "
-                    + " values (?, ?, ?);" ;
+                    + " values (?, ?, ?);";
 
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, bookmarkGroup.getName());
@@ -360,10 +375,11 @@ public class Databases {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Databases.close(connection,preparedStatement,rs);
+            Databases.close(connection, preparedStatement, rs);
         }
         return result;
     }
+
     public List<BookmarkGroup> bookmarkGroupList() {
         List<BookmarkGroup> list = new ArrayList<>();
 
@@ -376,7 +392,7 @@ public class Databases {
 
             String sql = "select * " +
                     "from bookmark_group " +
-                    "order by bookmark_group_id;" ;
+                    "order by bookmark_group_id;";
 
             preparedStatement = connection.prepareStatement(sql);
             rs = preparedStatement.executeQuery();
@@ -403,10 +419,11 @@ public class Databases {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Databases.close(connection,preparedStatement,rs);
+            Databases.close(connection, preparedStatement, rs);
         }
         return list;
     }
+
     public int modifyBookmarkGroup(int id, String name, int orderNo) {
         int num = 0;
 
@@ -416,12 +433,25 @@ public class Databases {
 
         try {
             connection = Databases.dbConnect();
-            String sql = "update bookmark_group " +
-                    "set name = ?, order_no = ?, modify_dttm = ? " +
-                    "where bookmark_group_id = ?;" ;
 
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,name);
+            String checkSql = "select count(*) from bookmark_group where order_no = ? and bookmark_group_id != ?";
+
+            preparedStatement = connection.prepareStatement(checkSql);
+            preparedStatement.setInt(1, orderNo);
+            preparedStatement.setInt(2, id);
+            rs = preparedStatement.executeQuery();
+
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                return -1;
+            }
+
+            String sql2 = "update bookmark_group " +
+                    "set name = ?, order_no = ?, modify_dttm = ? " +
+                    "where bookmark_group_id = ?;";
+
+            preparedStatement = connection.prepareStatement(sql2);
+            preparedStatement.setString(1, name);
             preparedStatement.setInt(2, orderNo);
             preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             preparedStatement.setInt(4, id);
@@ -432,10 +462,11 @@ public class Databases {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Databases.close(connection,preparedStatement,rs);
+            Databases.close(connection, preparedStatement, rs);
         }
         return num;
     }
+
     public void deleteBookmarkGroup(int id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -443,16 +474,16 @@ public class Databases {
 
         try {
             connection = Databases.dbConnect();
-            String sql = "delete from bookmark_group where bookmark_group_id = ?;" ;
+            String sql = "delete from bookmark_group where bookmark_group_id = ?;";
 
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,id);
+            preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            Databases.close(connection,preparedStatement,rs);
+            Databases.close(connection, preparedStatement, rs);
         }
 
     }

@@ -30,6 +30,8 @@
 
         if (result > 0) {
             message = "추가 성공!";
+        } else if (result == -1) {
+            message = "이미 같은 순서가 있습니다.";
         } else {
             message = "추가 실패";
         }
