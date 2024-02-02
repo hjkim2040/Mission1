@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.sc.mission1.Databases" %>
 <%@ page import="com.sc.mission1.BookmarkGroup" %>
+<%@ page import="com.sc.mission1.Bookmark" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -19,15 +20,42 @@
     Databases databases = new Databases();
     String distance = request.getParameter("distance");
     String mgrNo = request.getParameter("mgrNo");
+
     List<Wifi> wifilist = databases.wifiDetailList(mgrNo, Double.parseDouble(distance));
     List<BookmarkGroup> bookmarkGroupList = databases.bookmarkGroupList();
     request.setAttribute("bookmarkGroupList", bookmarkGroupList);
 
+    request.setCharacterEncoding("UTF-8");
+    String message = "";
+    Bookmark bookmark = new Bookmark();
+
+    if (request.getMethod().equalsIgnoreCase("POST")) {
+        int bookmarkGroupNo = Integer.parseInt(request.getParameter("bookmark_group_id"));
+
+        bookmark.setMgrNo(mgrNo);
+        bookmark.setBookmarkGroupId(bookmarkGroupNo);
+        int result = databases.addBookmark(bookmark);
+
+        if (result > 0) {
+            message = "추가 성공!";
+        } else {
+            message = "추가 실패";
+        }
+    } else {
 %>
-<select>
-    <option value="">북마크 그룹 이름 선택</option>
-</select>
-<button>북마크 추가하기</button>
+<form method="post" id="add-form">
+    <select name="bookmark_group_id">
+        <option value="">북마크 그룹 이름 선택</option>
+        <% for (BookmarkGroup group : bookmarkGroupList) { %>
+        <option value="<%= group.getId() %>"><%= group.getName() %>
+        </option>
+        <% } %>
+    </select>
+    <button type="submit">북마크 추가하기</button>
+</form>
+<%
+    }
+%>
 <div style="padding: 10px 0">
     <table>
         <% for (Wifi wifi : wifilist) { %>
@@ -119,5 +147,12 @@
         <% } %>
     </table>
 </div>
+<script>
+    var message = "<%= message %>";
+    if (message) {
+        alert(message);
+        location.href = "bookmark.jsp";
+    }
+</script>
 </body>
 </html>

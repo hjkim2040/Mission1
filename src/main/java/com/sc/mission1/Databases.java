@@ -487,6 +487,90 @@ public class Databases {
         }
 
     }
+    public int addBookmark(Bookmark bookmark) {
+        int result = 0;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+
+            String sql = "insert into bookmark (mgr_no, bookmark_group_id, reg_dttm) "
+                    + " values (?, ?, ?);";
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, bookmark.getMgrNo());
+            preparedStatement.setInt(2, bookmark.getBookmarkGroupId());
+            Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+            preparedStatement.setTimestamp(3, timestamp);
+
+            result = preparedStatement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection, preparedStatement, rs);
+        }
+        return result;
+    }
+    public List<Bookmark> bookmarkList() {
+        List<Bookmark> list = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+
+            String sql = "select * " +
+                    "from bookmark " +
+                    "order by bookmark_id;";
+
+            preparedStatement = connection.prepareStatement(sql);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("reg_dttm");
+                LocalDateTime regDttm = timestamp.toLocalDateTime();
+
+                Bookmark bookmark = new Bookmark();
+                bookmark.setId(rs.getInt("bookmark_id"));
+                bookmark.setMgrNo(rs.getString("mgrNo"));
+                bookmark.setBookmarkGroupId(rs.getInt("bookmark_group_id"));
+                bookmark.setRegDttm(regDttm);
+                list.add(bookmark);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection, preparedStatement, rs);
+        }
+        return list;
+    }
+    public void deleteBookmark(int id) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+            String sql = "delete from bookmark where bookmark_id = ?;";
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection, preparedStatement, rs);
+        }
+
+    }
 
 }
 

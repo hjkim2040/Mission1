@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Bookmark {
     private int id;
-    private int bookmarkGroupId;
     private String mgrNo;
+    private int bookmarkGroupId;
     private LocalDateTime regDttm;
 }
