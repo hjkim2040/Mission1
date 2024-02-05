@@ -1,5 +1,8 @@
 package com.sc.mission1;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,13 +12,22 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 
 public class Databases {
-    public static Connection dbConnect() {
-        String url = "jdbc:mariadb://13.209.241.155:3306/mission1";
-        String dbUserId = "mission1_user";
-        String dbPassword = "mission1";
+    public static Connection dbConnect() throws IOException {
+        Properties props = new Properties();
+        InputStream input = Databases.class.getClassLoader().getResourceAsStream("config.properties");
+        if (input != null) {
+            props.load(input);
+        } else {
+            throw new FileNotFoundException("config.properties not found");
+        }
+
+        String url = props.getProperty("DB_URL");
+        String dbUserId = props.getProperty("DB_USER");
+        String dbPassword = props.getProperty("DB_PASSWORD");
 
         Connection connection = null;
 
@@ -99,7 +111,7 @@ public class Databases {
                 count++;
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -150,7 +162,7 @@ public class Databases {
                 wifi.setWorkDttm(rs.getString("work_dttm"));
                 wifiList.add(wifi);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -180,7 +192,7 @@ public class Databases {
 
             preparedStatement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -216,7 +228,7 @@ public class Databases {
                 );
                 list.add(searchHistory);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -239,7 +251,7 @@ public class Databases {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -284,7 +296,7 @@ public class Databases {
                 wifi.setWorkDttm(rs.getString("work_dttm"));
 
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -332,7 +344,7 @@ public class Databases {
                 wifi.setWorkDttm(rs.getString("work_dttm"));
                 list.add(wifi);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -372,7 +384,7 @@ public class Databases {
             result = preparedStatement.executeUpdate();
 
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -417,7 +429,7 @@ public class Databases {
                     bookmarkGroup.setModifyDttm(modifyDttm);
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -461,7 +473,7 @@ public class Databases {
                 }
                 list.add(bookmarkGroup);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -504,7 +516,7 @@ public class Databases {
             num = preparedStatement.executeUpdate();
 
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -525,7 +537,7 @@ public class Databases {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -555,7 +567,7 @@ public class Databases {
             result = preparedStatement.executeUpdate();
 
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -591,7 +603,7 @@ public class Databases {
                 bookmark.setBookmarkGroupId(rs.getInt("bookmark_group_id"));
                 bookmark.setRegDttm(regDttm);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -627,7 +639,7 @@ public class Databases {
                 bookmark.setRegDttm(regDttm);
                 list.add(bookmark);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
@@ -650,7 +662,7 @@ public class Databases {
             preparedStatement.setInt(1, id);
             result = preparedStatement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
