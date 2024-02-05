@@ -379,6 +379,50 @@ public class Databases {
         }
         return result;
     }
+    public BookmarkGroup selectBookmarkGroup(int bookmarkGroupId) {
+        BookmarkGroup bookmarkGroup = new BookmarkGroup();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+
+            String sql = "select * " +
+                    "from bookmark_group " +
+                    "order by bookmark_group_id = ?;";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, bookmarkGroupId);
+
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("reg_dttm");
+                LocalDateTime regDttm = timestamp.toLocalDateTime();
+
+                LocalDateTime modifyDttm = null;
+                Timestamp timestamp2 = rs.getTimestamp("modify_dttm");
+                if (timestamp2 != null) {
+                    modifyDttm = timestamp2.toLocalDateTime();
+                }
+                bookmarkGroup.setId(rs.getInt("bookmark_group_id"));
+                bookmarkGroup.setName(rs.getString("name"));
+                bookmarkGroup.setOrderNo(rs.getInt("order_no"));
+                bookmarkGroup.setRegDttm(regDttm);
+                if (modifyDttm != null) {
+                    bookmarkGroup.setModifyDttm(modifyDttm);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection, preparedStatement, rs);
+        }
+        return bookmarkGroup;
+    }
 
     public List<BookmarkGroup> bookmarkGroupList() {
         List<BookmarkGroup> list = new ArrayList<>();
@@ -516,6 +560,41 @@ public class Databases {
         }
         return result;
     }
+    public Bookmark selectBookmark(int bookmarkId) {
+        Bookmark bookmark = new Bookmark();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Databases.dbConnect();
+
+            String sql = "select * " +
+                    "from bookmark " +
+                    "order by bookmark_id = ?;";
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, bookmarkId);
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("reg_dttm");
+                LocalDateTime regDttm = timestamp.toLocalDateTime();
+
+
+                bookmark.setId(rs.getInt("bookmark_id"));
+                bookmark.setMgrNo(rs.getString("mgr_no"));
+                bookmark.setBookmarkGroupId(rs.getInt("bookmark_group_id"));
+                bookmark.setRegDttm(regDttm);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Databases.close(connection, preparedStatement, rs);
+        }
+        return bookmark;
+    }
     public List<Bookmark> bookmarkList() {
         List<Bookmark> list = new ArrayList<>();
 
@@ -539,7 +618,7 @@ public class Databases {
 
                 Bookmark bookmark = new Bookmark();
                 bookmark.setId(rs.getInt("bookmark_id"));
-                bookmark.setMgrNo(rs.getString("mgrNo"));
+                bookmark.setMgrNo(rs.getString("mgr_no"));
                 bookmark.setBookmarkGroupId(rs.getInt("bookmark_group_id"));
                 bookmark.setRegDttm(regDttm);
                 list.add(bookmark);
@@ -551,7 +630,9 @@ public class Databases {
         }
         return list;
     }
-    public void deleteBookmark(int id) {
+    public int deleteBookmark(int id) {
+        int result = 0;
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -562,14 +643,14 @@ public class Databases {
 
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
+            result = preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Databases.close(connection, preparedStatement, rs);
         }
-
+        return result;
     }
 
 }
