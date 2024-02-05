@@ -379,6 +379,7 @@ public class Databases {
         }
         return result;
     }
+
     public BookmarkGroup selectBookmarkGroup(int bookmarkGroupId) {
         BookmarkGroup bookmarkGroup = new BookmarkGroup();
 
@@ -531,6 +532,7 @@ public class Databases {
         }
 
     }
+
     public int addBookmark(Bookmark bookmark) {
         int result = 0;
 
@@ -560,6 +562,7 @@ public class Databases {
         }
         return result;
     }
+
     public Bookmark selectBookmark(int bookmarkId) {
         Bookmark bookmark = new Bookmark();
 
@@ -595,6 +598,7 @@ public class Databases {
         }
         return bookmark;
     }
+
     public List<Bookmark> bookmarkList() {
         List<Bookmark> list = new ArrayList<>();
 
@@ -630,6 +634,7 @@ public class Databases {
         }
         return list;
     }
+
     public int deleteBookmark(int id) {
         int result = 0;
 

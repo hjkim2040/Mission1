@@ -59,7 +59,7 @@
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'http://localhost:8080/searchHistory.jsp');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
+        xhr.onload = function () {
             if (xhr.status === 200) {
                 alert('삭제 성공!');
                 location.reload();

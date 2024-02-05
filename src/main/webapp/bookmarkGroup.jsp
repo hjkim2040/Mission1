@@ -41,11 +41,16 @@
                 String modify = bookmarkGroup.getModifyDttm() == null ? "" : String.valueOf(bookmarkGroup.getModifyDttm());
         %>
         <tr>
-            <td><%=bookmarkGroup.getId()%></td>
-            <td><%=bookmarkGroup.getName()%></td>
-            <td><%=bookmarkGroup.getOrderNo()%></td>
-            <td><%=bookmarkGroup.getRegDttm()%></td>
-            <td><%=modify%></td>
+            <td><%=bookmarkGroup.getId()%>
+            </td>
+            <td><%=bookmarkGroup.getName()%>
+            </td>
+            <td><%=bookmarkGroup.getOrderNo()%>
+            </td>
+            <td><%=bookmarkGroup.getRegDttm()%>
+            </td>
+            <td><%=modify%>
+            </td>
             <td style="text-align: center;">
                 <a href="bookmarkGroupModify.jsp?id=<%=bookmarkGroup.getId()%>">수정</a>
                 <button onclick="deleteBookmarkGroupList(<%=bookmarkGroup.getId()%>)">삭제</button>
@@ -60,7 +65,7 @@
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'http://localhost:8080/bookmarkGroup.jsp');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
+        xhr.onload = function () {
             if (xhr.status === 200) {
                 alert('삭제 성공!');
                 location.reload();

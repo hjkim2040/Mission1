@@ -38,10 +38,14 @@
                 BookmarkGroup bookmarkGroup = databases.selectBookmarkGroup(bookmark.getBookmarkGroupId());
         %>
         <tr>
-            <td><%=bookmark.getId()%></td>
-            <td><%=bookmarkGroup.getName()%></td>
-            <td><a href="wifiDetail.jsp?mgrNo=<%=wifi.getXSwifiMgrNo()%>"></a><%=wifi.getXSwifiMainNm()%></td>
-            <td><%=bookmark.getRegDttm()%></td>
+            <td><%=bookmark.getId()%>
+            </td>
+            <td><%=bookmarkGroup.getName()%>
+            </td>
+            <td><a href="wifiDetail.jsp?mgrNo=<%=wifi.getXSwifiMgrNo()%>"></a><%=wifi.getXSwifiMainNm()%>
+            </td>
+            <td><%=bookmark.getRegDttm()%>
+            </td>
             <td style="text-align: center;"><a href="bookmarkDelete.jsp?id=<%=bookmark.getId()%>">삭제</a></td>
         </tr>
         <% }

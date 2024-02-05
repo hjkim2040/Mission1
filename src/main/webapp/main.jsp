@@ -52,7 +52,9 @@
         </td>
         <td><%=wf.getXSwifiWrdofc()%>
         </td>
-        <td><a href="wifiDetail.jsp?mgrNo=<%=wf.getXSwifiMgrNo()%>&distance=<%=wf.getDistance()%>"><%=wf.getXSwifiMainNm()%></a>
+        <td>
+            <a href="wifiDetail.jsp?mgrNo=<%=wf.getXSwifiMgrNo()%>&distance=<%=wf.getDistance()%>"><%=wf.getXSwifiMainNm()%>
+            </a>
         </td>
         <td><%=wf.getXSwifiAdres1()%>
         </td>
@@ -84,7 +86,7 @@
     <% }
     }
     } else { %>
-        <td colspan="17" style="text-align: center; height:50px">위치정보를 입력한 후에 조회해 주세요.</td>
+    <td colspan="17" style="text-align: center; height:50px">위치정보를 입력한 후에 조회해 주세요.</td>
     <% } %>
 </table>
 <script>

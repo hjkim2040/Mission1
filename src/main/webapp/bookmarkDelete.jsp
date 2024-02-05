@@ -14,7 +14,7 @@
 </head>
 <body>
 <h1>북마크 삭제</h1>
-<%@include file="header.jsp"%>
+<%@include file="header.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
     String message = "";
@@ -29,7 +29,7 @@
 
         if (result > 0) {
             message = "삭제 성공!";
-        }  else {
+        } else {
             message = "삭제 실패";
         }
     } else {
@@ -38,29 +38,32 @@
     북마크를 삭제하시겠습니까?
 </div>
 <form method="post" id="modify-form">
-<div style="margin-top: 20px">
-    <table>
-        <tr>
-            <th>북마크 이름</th>
-            <td><%=bookmarkGroup.getName()%></td>
-        </tr>
-        <tr>
-            <th>와이파이명</th>
-            <td><%=wifi.getXSwifiMainNm()%></td>
-        </tr>
-        <tr>
-            <th>등록일자</th>
-            <td><%=bookmark.getRegDttm()%></td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align: center;">
-                <a href="bookmark.jsp">돌아가기</a>
-                <a>|</a>
-                <button type="submit">삭제</button>
-            </td>
-        </tr>
-    </table>
-</div>
+    <div style="margin-top: 20px">
+        <table>
+            <tr>
+                <th>북마크 이름</th>
+                <td><%=bookmarkGroup.getName()%>
+                </td>
+            </tr>
+            <tr>
+                <th>와이파이명</th>
+                <td><%=wifi.getXSwifiMainNm()%>
+                </td>
+            </tr>
+            <tr>
+                <th>등록일자</th>
+                <td><%=bookmark.getRegDttm()%>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <a href="bookmark.jsp">돌아가기</a>
+                    <a>|</a>
+                    <button type="submit">삭제</button>
+                </td>
+            </tr>
+        </table>
+    </div>
 </form>
 <%
     }

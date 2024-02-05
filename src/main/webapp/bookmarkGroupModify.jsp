@@ -12,7 +12,7 @@
 </head>
 <body>
 <h1>북마크 그룹 수정</h1>
-<%@include file="header.jsp"%>
+<%@include file="header.jsp" %>
 <%
     request.setCharacterEncoding("UTF-8");
     String message = "";
