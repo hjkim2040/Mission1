@@ -1,4 +1,4 @@
-package com.sc.mission1;
+package com.sc.mission1.dto;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;

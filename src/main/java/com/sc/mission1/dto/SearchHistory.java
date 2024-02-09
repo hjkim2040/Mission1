@@ -1,4 +1,4 @@
-package com.sc.mission1;
+package com.sc.mission1.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +13,9 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookmarkGroup {
+public class SearchHistory {
     private int id;
-    private String name;
-    private int orderNo;
-    private LocalDateTime regDttm;
-    private LocalDateTime modifyDttm;
+    private String lat;
+    private String lnt;
+    private LocalDateTime searchDttm;
 }

@@ -1,6 +1,6 @@
-<%@ page import="com.sc.mission1.Databases" %>
+<%@ page import="com.sc.mission1.serivce.Databases" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.sc.mission1.BookmarkGroup" %>
+<%@ page import="com.sc.mission1.dto.BookmarkGroup" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>

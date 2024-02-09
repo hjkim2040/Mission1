@@ -1,4 +1,9 @@
-package com.sc.mission1;
+package com.sc.mission1.serivce;
+
+import com.sc.mission1.dto.Bookmark;
+import com.sc.mission1.dto.BookmarkGroup;
+import com.sc.mission1.dto.SearchHistory;
+import com.sc.mission1.dto.Wifi;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

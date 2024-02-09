@@ -1,7 +1,7 @@
-<%@ page import="com.sc.mission1.Databases" %>
-<%@ page import="com.sc.mission1.Bookmark" %>
-<%@ page import="com.sc.mission1.BookmarkGroup" %>
-<%@ page import="com.sc.mission1.Wifi" %>
+<%@ page import="com.sc.mission1.serivce.Databases" %>
+<%@ page import="com.sc.mission1.dto.Bookmark" %>
+<%@ page import="com.sc.mission1.dto.BookmarkGroup" %>
+<%@ page import="com.sc.mission1.dto.Wifi" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>

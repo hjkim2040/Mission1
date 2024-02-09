@@ -1,8 +1,9 @@
-package com.sc.mission1;
+package com.sc.mission1.serivce;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sc.mission1.dto.WifiList;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -10,7 +11,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.net.URL;
 
-import static com.sc.mission1.Databases.insertWifi;
+import static com.sc.mission1.serivce.Databases.insertWifi;
 
 
 public class WifiApi {
@@ -66,7 +67,7 @@ public class WifiApi {
                     }
                     String jsonData = response.body().string();
                     WifiList wifiList = gson.fromJson(jsonData, WifiList.class);
-                    count += insertWifi(wifiList.TbPublicWifiInfo.getRow());
+                    count += insertWifi(wifiList.getTbPublicWifiInfo().getRow());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
